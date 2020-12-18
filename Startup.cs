@@ -12,6 +12,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using IdentityAndEntityFramework.Contexts;
 
 namespace IdentityAndEntityFramework
 {
@@ -27,6 +29,8 @@ namespace IdentityAndEntityFramework
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
+
+			//Default
 			services.AddDbContext<ApplicationDbContext>(options =>
 				options.UseSqlServer(
 					Configuration.GetConnectionString("DefaultConnection")));
@@ -34,6 +38,19 @@ namespace IdentityAndEntityFramework
 				.AddEntityFrameworkStores<ApplicationDbContext>();
 			services.AddControllersWithViews();
 			services.AddRazorPages();
+
+			//Added services
+
+			// Add Mvc services
+			services.AddMvc();
+			// MVC compatibility
+			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+			// disable end point routing
+			services.AddMvc(options => options.EnableEndpointRouting = false);
+			// Database location/connnection
+			string connection = @"Server=(localdb)\mssqllocaldb;Database=EmployeePayroll;Trusted_Connection=True;ConnectRetryCount=0";
+			// Adding Database context for entity framework
+			services.AddDbContext<EmployeePayrollContext>(options => options.UseSqlServer(connection));
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

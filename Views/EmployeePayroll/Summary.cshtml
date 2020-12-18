@@ -1,0 +1,59 @@
+﻿@model IEnumerable<IdentityAndEntityFramework.Models.EmployeePayrollModel>
+
+@{
+    ViewData["Title"] = "Summary";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    // Variables
+    var totalSalary = 0D;
+    var totalEmployees = 0D;
+    var averageSalary = 0D;
+    var WEEKS_IN_A_YEAR = 52D;
+
+}
+
+
+
+<h1>Summary</h1>
+
+
+
+@foreach (var item in Model)
+{
+    var celery = item.getSalary(item.HoursWorked, item.Wage);
+    totalEmployees += 1;
+    totalSalary += (item.HoursWorked * item.Wage) * WEEKS_IN_A_YEAR;
+    averageSalary = totalSalary / totalEmployees;
+}
+
+
+    <table class="table">
+
+        <tbody>
+            <tr>
+                <td>
+                    Number of Employees:
+                </td>
+                <td>
+                    @totalEmployees
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Total Yearly Payroll:
+                </td>
+                <td>
+                    @totalSalary.ToString("c")
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Average Pay Per Employee:
+                </td>
+                <td>
+                    @averageSalary.ToString("c")
+                </td>
+            </tr>
+
+
+        </tbody>
+    </table>
