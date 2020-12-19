@@ -50,7 +50,11 @@ namespace IdentityAndEntityFramework
 			// Database location/connnection
 			string connection = @"Server=(localdb)\mssqllocaldb;Database=EmployeePayroll;Trusted_Connection=True;ConnectRetryCount=0";
 			// Adding Database context for entity framework
-			services.AddDbContext<EmployeePayrollContext>(options => options.UseSqlServer(connection));
+			services.AddDbContext<EmployeePayrollContext>(options => 
+				options.UseSqlServer(
+					Configuration.GetConnectionString("DefaultConnection")
+				)
+			);
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
